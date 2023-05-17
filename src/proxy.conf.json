@@ -1,0 +1,19 @@
+{
+  "/api": {
+    "target": "https://datausa.io/api/data?drilldowns=Nation&measures=Population",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": "true",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/assets": {
+    "target": "http://localhost:4200/assets",
+    "secure": false,
+    "changeOrigin": "true",
+    "pathRewrite": {
+      "^/assets": ""
+    }
+  }
+}
