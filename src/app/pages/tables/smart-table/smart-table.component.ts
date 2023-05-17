@@ -27,29 +27,29 @@ export class SmartTableComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
-      firstName: {
-        title: 'First Name',
+      'ID Nation': {
+        title: 'ID Nation',
         type: 'string',
       },
-      lastName: {
-        title: 'Last Name',
+      Nation: {
+        title: 'Nation',
         type: 'string',
       },
-      username: {
-        title: 'Username',
+      'ID Year': {
+        title: 'ID year',
         type: 'string',
       },
-      email: {
-        title: 'E-mail',
+      Year: {
+        title: 'Year',
         type: 'string',
       },
-      age: {
-        title: 'Age',
-        type: 'number',
+      Population: {
+        title: 'Population',
+        type: 'string',
+      },
+      'Slug Nation': {
+        title: 'Slug Nation',
+        type: 'string',
       },
     },
   };
@@ -57,9 +57,9 @@ export class SmartTableComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData, private populationService: PopulationService) {
-    this.populationService.getRemoteDataSource().subscribe((data: any) => {
-      this.source.load(data);
-    })
+    this.populationService.getRemoteDataSource().subscribe((response: any) => {
+      this.source.load(response.data);
+    });
   }
 
   onDeleteConfirm(event): void {

@@ -6,13 +6,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'grid-outline',
     children: [
       {
-        title: 'Smart Table',
+        title: 'Grid View',
         link: '/pages/tables/smart-table',
       },
       {
-        title: 'Tree Grid',
+        title: 'Tree View',
         link: '/pages/tables/tree-grid',
       },
     ],
-  }
+  },
 ];
