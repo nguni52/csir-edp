@@ -9,13 +9,18 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
+      path: 'main',
+      loadChildren: () => import('./main/main.module')
+        .then(m => m.MainModule),
+    },
+    {
       path: 'tables',
       loadChildren: () => import('./tables/tables.module')
         .then(m => m.TablesModule),
     },
     {
       path: '',
-      redirectTo: 'tables',
+      redirectTo: 'main',
       pathMatch: 'full',
     },
     {
