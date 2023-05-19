@@ -18,7 +18,6 @@ export class TreeGridComponent {
   private processData(response: any) {
     let uniqueItems = [];
     response.data.forEach((curr: any, index: number) => {
-      // console.log(curr);
       // process top level ID NATION
       const item = curr['ID Nation'];
       if (uniqueItems.indexOf(item) === -1) {
@@ -48,11 +47,7 @@ export class TreeGridComponent {
         nationItems.push(myItem);
       }
     });
-    console.log(nationItems);
-    const tmp = this.nodeItems[0];
-    console.log(tmp);
     this.nodeItems[0]['children'] = nationItems;
-    console.log(JSON.stringify(this.nodeItems));
 
     this.nodeItems = [{
       id: '0',
