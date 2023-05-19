@@ -5,7 +5,7 @@ services:
     container_name: csir-edp-ui
     command:  ["nginx", "-g", "daemon off;"]
     ports:
-      - "8080:80"
+      - "8088:80"
     networks:
       - network-eureka
 
