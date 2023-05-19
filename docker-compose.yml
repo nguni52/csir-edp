@@ -1,7 +1,7 @@
 version: '3'
 services:
   csir-edp-ui:
-    image: nguni52/csir-edp-ui:1.0.0
+    image: nguni52/csir-edp-ui:1.0.3
     container_name: csir-edp-ui
     command:  ["nginx", "-g", "daemon off;"]
     ports:
