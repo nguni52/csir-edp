@@ -1,18 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
-
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
+import {Component, Input} from '@angular/core';
+import {PopulationService} from '../../../shared/services/population.service';
 
 @Component({
   selector: 'ngx-tree-grid',
@@ -20,79 +7,178 @@ interface FSEntry {
   styleUrls: ['./tree-grid.component.scss'],
 })
 export class TreeGridComponent {
-  customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
-  allColumns = [ this.customColumn, ...this.defaultColumns ];
+  public nodeItems = [];
 
-  dataSource: NbTreeGridDataSource<FSEntry>;
-
-  sortColumn: string;
-  sortDirection: NbSortDirection = NbSortDirection.NONE;
-
-  constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>) {
-    this.dataSource = this.dataSourceBuilder.create(this.data);
+  constructor(private populationService: PopulationService) {
+    this.populationService.getRemoteDataSource().subscribe((response: any) => {
+      this.processData(response);
+    });
   }
 
-  updateSort(sortRequest: NbSortRequest): void {
-    this.sortColumn = sortRequest.column;
-    this.sortDirection = sortRequest.direction;
-  }
+  private processData(response: any) {
+    let uniqueItems = [];
+    response.data.forEach((curr: any, index: number) => {
+      // console.log(curr);
+      // process top level ID NATION
+      const item = curr['ID Nation'];
+      if (uniqueItems.indexOf(item) === -1) {
+        const myItem = {
+          id: index,
+          name: item,
+        };
+        uniqueItems.push(item);
+        this.nodeItems.push(myItem);
+      }
+    });
 
-  getSortDirection(column: string): NbSortDirection {
-    if (this.sortColumn === column) {
-      return this.sortDirection;
-    }
-    return NbSortDirection.NONE;
-  }
+    uniqueItems = [];
+    const nationItems = [];
+    response.data.forEach((curr: any, index: number) => {
+      // process top level NATION
+      const item = curr['Nation'];
+      if (uniqueItems.indexOf(item) === -1) {
+        const myItem = {
+          id: index + 1,
+          name: item,
+          item: {
+            phrase: item,
+          },
+        };
+        uniqueItems.push(item);
+        nationItems.push(myItem);
+      }
+    });
+    console.log(nationItems);
+    const tmp = this.nodeItems[0];
+    console.log(tmp);
+    this.nodeItems[0]['children'] = nationItems;
+    console.log(JSON.stringify(this.nodeItems));
 
-  private data: TreeNode<FSEntry>[] = [
-    {
-      data: { name: 'Projects', size: '1.8 MB', items: 5, kind: 'dir' },
+    this.nodeItems = [{
+      id: '0',
+      name: '01000US',
       children: [
-        { data: { name: 'project-1.doc', kind: 'doc', size: '240 KB' } },
-        { data: { name: 'project-2.doc', kind: 'doc', size: '290 KB' } },
-        { data: { name: 'project-3', kind: 'txt', size: '466 KB' } },
-        { data: { name: 'project-4.docx', kind: 'docx', size: '900 KB' } },
+        {
+          id: '1',
+          name: 'United States',
+          item: {
+            phrase: 'United States',
+          },
+          children: [
+            {
+              id: '1',
+              name: '2020',
+              item: {
+                phrase: '2020',
+              },
+              children: [{
+                id: '1',
+                name: '326569308',
+                item: {
+                  phrase: '326569308',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2019',
+              item: {
+                phrase: '2019',
+              },
+              children: [{
+                id: '1',
+                name: '324697795',
+                item: {
+                  phrase: '324697795',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2018',
+              item: {
+                phrase: '2018',
+              },
+              children: [{
+                id: '1',
+                name: '322903030',
+                item: {
+                  phrase: '322903030',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2017',
+              item: {
+                phrase: '2017',
+              },
+              children: [{
+                id: '1',
+                name: '321004407',
+                item: {
+                  phrase: '321004407',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2016',
+              item: {
+                phrase: '2016',
+              },
+              children: [{
+                id: '1',
+                name: '318558162',
+                item: {
+                  phrase: '318558162',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2015',
+              item: {
+                phrase: '2015',
+              },
+              children: [{
+                id: '1',
+                name: '316515021',
+                item: {
+                  phrase: '316515021',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2014',
+              item: {
+                phrase: '2014',
+              },
+              children: [{
+                id: '1',
+                name: '314107084',
+                item: {
+                  phrase: '314107084',
+                },
+              }],
+            },
+            {
+              id: '1',
+              name: '2013',
+              item: {
+                phrase: '2013',
+              },
+              children: [{
+                id: '1',
+                name: '311536594',
+                item: {
+                  phrase: '311536594',
+                },
+              }],
+            }],
+        },
       ],
-    },
-    {
-      data: { name: 'Reports', kind: 'dir', size: '400 KB', items: 2 },
-      children: [
-        { data: { name: 'Report 1', kind: 'doc', size: '100 KB' } },
-        { data: { name: 'Report 2', kind: 'doc', size: '300 KB' } },
-      ],
-    },
-    {
-      data: { name: 'Other', kind: 'dir', size: '109 MB', items: 2 },
-      children: [
-        { data: { name: 'backup.bkp', kind: 'bkp', size: '107 MB' } },
-        { data: { name: 'secret-note.txt', kind: 'txt', size: '2 MB' } },
-      ],
-    },
-  ];
-
-  getShowOn(index: number) {
-    const minWithForMultipleColumns = 400;
-    const nextColumnStep = 100;
-    return minWithForMultipleColumns + (nextColumnStep * index);
-  }
-}
-
-@Component({
-  selector: 'ngx-fs-icon',
-  template: `
-    <nb-tree-grid-row-toggle [expanded]="expanded" *ngIf="isDir(); else fileIcon">
-    </nb-tree-grid-row-toggle>
-    <ng-template #fileIcon>
-      <nb-icon icon="file-text-outline"></nb-icon>
-    </ng-template>
-  `,
-})
-export class FsIconComponent {
-  @Input() kind: string;
-  @Input() expanded: boolean;
-
-  isDir(): boolean {
-    return this.kind === 'dir';
+    }];
   }
 }
