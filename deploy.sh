@@ -7,5 +7,6 @@ else
     docker build -t nguni52/csir-edp-ui:latest .
     docker tag nguni52/csir-edp-ui:latest nguni52/csir-edp-ui:1.0.0
     docker push nguni52/csir-edp-ui:1.0.0
+    docker-compose up
   fi
 fi
